@@ -24,4 +24,17 @@ router.post('/', async (req, res) => {
   }
 });
 
+ // API Xóa sản phẩm theo ID
+router.delete('/:id', async (req, res) => {
+  try {
+    const deletedProduct = await Product.findByIdAndDelete(req.params.id);
+    if (!deletedProduct) {
+      return res.status(404).json({ message: 'Không tìm thấy sản phẩm' });
+    }
+    res.json({ message: 'Đã xóa sản phẩm thành công!' });
+  } catch (error) {
+    res.status(500).json({ message: 'Lỗi server:', error: error.message });
+  }
+});
+
 module.exports = router;
