@@ -9,21 +9,13 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+// Cho phép Backend nhận dữ liệu JSON / Base64 dung lượng lớn (tối đa 100MB)
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 app.use('/api/products', productRoutes);
 
-  // API Xóa sản phẩm theo ID
-app.delete('/api/products/:id', async (req, res) => {
-  try {
-    const deletedProduct = await Product.findByIdAndDelete(req.params.id);
-    if (!deletedProduct) {
-      return res.status(404).json({ message: 'Không tìm thấy sản phẩm' });
-    }
-    res.json({ message: 'Đã xóa sản phẩm thành công!' });
-  } catch (error) {
-    res.status(500).json({ message: 'Lỗi server:', error: error.message });
-  }
-});
+
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
