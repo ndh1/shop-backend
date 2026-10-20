@@ -37,4 +37,22 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// API Cập nhật (Sửa) sản phẩm theo ID
+router.put('/:id', async (req, res) => {
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true } // Trả về dữ liệu mới sau khi đã cập nhật
+    );
+    if (!updatedProduct) {
+      return res.status(404).json({ message: 'Không tìm thấy sản phẩm' });
+    }
+    res.json(updatedProduct);
+  } catch (error) {
+    res.status(500).json({ message: 'Lỗi server:', error: error.message });
+  }
+});
+
 module.exports = router;
+

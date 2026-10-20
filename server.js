@@ -25,3 +25,8 @@ mongoose.connect(process.env.MONGO_URI)
   })
   .catch((err) => console.error('Lỗi kết nối MongoDB:', err));
 
+// Khai báo đường dẫn authRoutes
+const authRoutes = require('./routes/authRoutes');
+
+// Thêm route API Auth bên dưới các middleware express.json
+app.use('/api/auth', authRoutes);
